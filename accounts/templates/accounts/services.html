@@ -1,0 +1,45 @@
+{%  extends 'accounts/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>SERVİS BİLGİLERİ</h5>
+		</div>
+		<hr>
+		<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_service' %}">YENİ SERVİS EKLE</a>
+		<hr>
+		<div class="card card-body">
+			
+			<table class="table table-sm">
+				<tr>
+					<th>Servis Adı</th>
+					<th>Uygulanan Çözüm</th>
+					<th>Uygulanan Çözüm</th>
+					<th>Oluşturan</th>
+					<th>Güncelle</th>
+					<th>Sil</th>
+				</tr>
+
+				{% for service in services %}
+					<tr>
+						<td>{{service.service_name}}</td>
+						<td>{{service.solution_name}}</td>
+						<td>{{service.alternative_solution}}</td>
+						<td>{{service.user}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'update_service' service.id %}">Güncelle</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_service' service.id %}">Sil</a></td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+
+</div>
+
+{% endblock %}

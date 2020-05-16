@@ -1,0 +1,43 @@
+{%  extends 'accounts/main.html' %}
+
+{% block content %}
+
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>MÜŞTERİLER</h5>
+		</div>
+		<hr>
+		<div class="card card-body">
+			
+			<table class="table table-sm">
+				<tr>
+					<th></th>
+					<th>Müşteri-Şirket Adı</th>
+					<th>Yetkili Kişi</th>
+					<th>Şehir</th>
+					<th>Telefon</th>
+					<th>Email</th>
+				</tr>
+
+				{% for customer in customers %}
+					<tr>
+						<td><a class="btn btn-sm btn-info" href="{% url 'customer' customer.id %}">Görüntüle</a></td>
+						<td>{{customer.name}}</td>
+						<td>{{customer.person}}</td>
+						<td>{{customer.city}}</td>
+						<td>{{customer.phone}}</td>
+						<td>{{customer.email}}</td>
+					</tr>
+				{% endfor %}
+
+			</table>
+		</div>
+	</div>
+
+
+</div>
+
+{% endblock %}

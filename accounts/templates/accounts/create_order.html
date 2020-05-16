@@ -1,0 +1,35 @@
+{%  extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+
+			<form action="" method="POST">
+				{% csrf_token %}
+				<h3>Müşteri Sipariş Oluştur </h3>
+				<hr>
+				<h6>Müşteri: </h6>
+				<p>{{form.customer}}</p>
+				<hr>
+				<h6>Ürün: </h6>
+				<p>{{form.product}}</p>
+				<hr>
+				<h6>Durum: </h6>
+				<p>{{form.status}}</p>
+				<hr>	
+				<h6>Not: </h6>
+				<p>{{form.note}}</p>
+				<hr>
+				
+				<input type="submit" name="Submit">
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

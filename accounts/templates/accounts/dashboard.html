@@ -1,0 +1,50 @@
+{%  extends 'accounts/main.html' %}
+
+{% block content %}
+
+{%  include 'accounts/status.html' %}
+
+<br>
+
+<div class="row">
+	
+	<div class="col-md">
+		<hr>
+		<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_new_order' %}">YENİ SİPARİŞ EKLE</a>
+		<hr>
+		<h5>SON SİPARİŞLER</h5>
+		<hr>
+		<div class="card card-body">
+			
+			<table class="table table-sm">
+				<tr>
+					<th>Müşteri</th>
+					<th>Ürün</th>
+					<th>Not</th>
+					<th>Sipariş Tarihi</th>
+					<th>Durumu</th>
+					<th>Güncelle</th>
+					<th>Sil</th>
+				</tr>
+
+				{% for order in orders %}
+					<tr>
+						<td>{{order.customer}}</td>
+						<td>{{order.product}}</td>
+						<td>{{order.note}}</td>
+						<td>{{order.date_created}}</td>
+						<td>{{order.status}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Güncelle</a></td>
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Sil</a></td>
+
+					</tr>
+				{% endfor %}
+
+		
+			</table>
+		</div>
+	</div>
+
+</div>
+
+{% endblock %}
