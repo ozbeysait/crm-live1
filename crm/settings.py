@@ -135,6 +135,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 #SMTP Configuration
+<<<<<<< HEAD
+=======
+
+>>>>>>> 12fa43eff9b531c249446d916b177363cafb5a38
 if not DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'smtp.gmail.com'
@@ -145,4 +149,8 @@ if not DEBUG:
 else:
     EMAIL_BACKEND = (
         "django.core.mail.backends.console.EmailBackend"
+<<<<<<< HEAD
     )
+=======
+    )
+>>>>>>> 12fa43eff9b531c249446d916b177363cafb5a38
