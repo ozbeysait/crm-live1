@@ -8,6 +8,10 @@ class Customer(models.Model):
 		('Aktif','Aktif'),
 		('Pasif','Pasif'),
 		)
+	DURUM = (
+		('Gönderildi','Gönderildi'),
+		('Gönderilmedi','Gönderilmedi'),
+		)
 	name = models.CharField(max_length=200, null=True)
 	person = models.CharField(max_length=200, null=True)
 	phone = models.CharField(max_length=200, null=True)
@@ -19,6 +23,7 @@ class Customer(models.Model):
 	bakim_anlasmasi = models.CharField(max_length=200, null=True, choices=BAKIM)
 	bakim_baslangic = models.DateTimeField(null=True)
 	bakim_bitis = models.DateTimeField(null=True)
+	email_durumu = models.CharField(max_length=200, null=True, choices=DURUM)
 
 	def __str__(self):
 		return self.name

@@ -9,10 +9,16 @@ from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
 
+import smtplib
+from django.core.mail import EmailMessage
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+
 # Create your views here.
 from .models import *
 from .forms import OrderForm, CustomerForm, ServiceForm
-from .filters import OrderFilter
+from .filters import OrderFilter, CustomerFilter
 
 def loginPage(request):
 	if request.user.is_authenticated:
@@ -69,15 +75,19 @@ def customers(request):
 	bakim_aktif = customers.filter(bakim_anlasmasi='Aktif').count()
 	bakim_pasif = customers.filter(bakim_anlasmasi='Pasif').count()
 
+	myFilter = CustomerFilter(request.GET, queryset=customers)
+	customers = myFilter.qs 
+
+
 	context = {'customers':customers,
-	'total_customers':total_customers,
+	'total_customers':total_customers, 'myFilter':myFilter,
 	'bakim_aktif':bakim_aktif, 'bakim_pasif':bakim_pasif}
 
 	return render(request, 'accounts/customer_list.html', context)
 
 @login_required(login_url='login')
-def customer(request, pk_test):
-	customer = Customer.objects.get(id=pk_test)
+def customer(request, pk):
+	customer = Customer.objects.get(id=pk)
 
 	orders = customer.order_set.all()
 	order_count = orders.count()
@@ -88,6 +98,22 @@ def customer(request, pk_test):
 	context = {'customer':customer, 'orders':orders, 'order_count':order_count,
 	'myFilter':myFilter}
 	return render(request, 'accounts/customer.html',context)
+
+@login_required(login_url='login')
+def customerSendMessage(request, pk):
+	customer = Customer.objects.get(id=pk)
+
+	template = render_to_string('accounts/email_template.html',{'customer':customer})
+	send_mail(
+	    'Pegasoft - Ürün Süreniz Dolmak Üzere!',
+	    template,
+	    settings.EMAIL_HOST_USER,
+	    ['elifbilginnn98@gmail.com'],
+    	fail_silently=False
+	)
+
+	context = {'customer':customer}
+	return redirect('/customers',context)
 
 @login_required(login_url='login')
 def updateCustomer(request, pk):
@@ -212,4 +238,6 @@ def deleteService(request, pk):
 
 	context = {'item':service}
 	return render(request, 'accounts/delete_service.html', context)
+
+
 

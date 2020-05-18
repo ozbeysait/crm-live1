@@ -13,10 +13,10 @@
 			<hr>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_customer' customer.id %}">Müşteriyi Güncelle</a>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_order' customer.id %}">Sipariş Ver</a>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'customer_send_message' customer.id %}" method="POST">{% csrf_token %}Uyarı Mail Gönder</a>
 
 		</div>
 	</div>
-
 	<div class="col-md">
 		<div class="card card-body">
 			<h5>İletişim Bilgileri:</h5>
