@@ -8,7 +8,8 @@
 	<div class="col-md">
 		<div class="card card-body">
 			<h5>Müşteri:</h5>
-			<h5>{{customer.name}}</h5>
+			<h4>{{customer.name}}</h4>
+			<h5>{{customer.bakim_anlasmasi}}</h5>
 			<hr>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_customer' customer.id %}">Müşteriyi Güncelle</a>
 			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_order' customer.id %}">Sipariş Ver</a>

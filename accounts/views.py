@@ -65,7 +65,15 @@ def products(request):
 def customers(request):
 	customers = Customer.objects.all()
 
-	return render(request, 'accounts/customer_list.html', {'customers':customers})
+	total_customers = customers.count()
+	bakim_aktif = customers.filter(bakim_anlasmasi='Aktif').count()
+	bakim_pasif = customers.filter(bakim_anlasmasi='Pasif').count()
+
+	context = {'customers':customers,
+	'total_customers':total_customers,
+	'bakim_aktif':bakim_aktif, 'bakim_pasif':bakim_pasif}
+
+	return render(request, 'accounts/customer_list.html', context)
 
 @login_required(login_url='login')
 def customer(request, pk_test):
@@ -155,7 +163,17 @@ def deleteOrder(request, pk):
 def services(request):
 	services = Service.objects.all()
 
-	return render(request, 'accounts/services.html', {'services':services})
+	total_services = services.count()
+	services_halil = services.filter(user=1).count()
+	services_burak = services.filter(user=2).count()
+	services_nurettin = services.filter(user=3).count()
+	services_sait = services.filter(user=4).count()
+
+	context = {'services':services,'total_services':total_services,
+	'services_halil':services_halil, 'services_burak':services_burak,
+	'services_nurettin':services_nurettin, 'services_sait':services_sait }
+
+	return render(request, 'accounts/services.html', context)
 
 @login_required(login_url='login')
 def createService(request):
@@ -194,3 +212,4 @@ def deleteService(request, pk):
 
 	context = {'item':service}
 	return render(request, 'accounts/delete_service.html', context)
+

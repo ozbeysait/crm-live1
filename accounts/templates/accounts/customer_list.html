@@ -2,6 +2,7 @@
 
 {% block content %}
 
+{%  include 'accounts/customer_status.html' %}
 <br>
 
 <div class="row">
@@ -20,6 +21,10 @@
 					<th>Şehir</th>
 					<th>Telefon</th>
 					<th>Email</th>
+					<th>Ürün Anahtarı</th>
+					<th>Vergi Numarası</th>
+					<th>Bakım Anlaşması</th>
+					<th>Bakım Bitiş</th>
 				</tr>
 
 				{% for customer in customers %}
@@ -30,6 +35,10 @@
 						<td>{{customer.city}}</td>
 						<td>{{customer.phone}}</td>
 						<td>{{customer.email}}</td>
+						<td>{{customer.product_key}}</td>
+						<td>{{customer.tax_number}}</td>
+						<td><strong>{{customer.bakim_anlasmasi}}</strong></td>
+						<td>{{customer.bakim_bitis}}</td>
 					</tr>
 				{% endfor %}
 
