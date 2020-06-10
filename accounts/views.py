@@ -108,7 +108,7 @@ def customerSendMessage(request, pk):
 	    'Pegasoft - Ürün Süreniz Dolmak Üzere!',
 	    template,
 	    settings.EMAIL_HOST_USER,
-	    ['elifbilginnn98@gmail.com'],
+	    ['nurettinnaroglu@gmail.com'],
     	fail_silently=False
 	)
 

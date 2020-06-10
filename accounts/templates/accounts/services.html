@@ -19,7 +19,7 @@
 				<tr>
 					<th>Servis Adı</th>
 					<th>Uygulanan Çözüm</th>
-					<th>Uygulanan Çözüm</th>
+					<th>Servis Tarihi</th>
 					<th>Oluşturan</th>
 					<th>Güncelle</th>
 					<th>Sil</th>
@@ -29,7 +29,7 @@
 					<tr>
 						<td>{{service.service_name}}</td>
 						<td>{{service.solution_name}}</td>
-						<td>{{service.alternative_solution}}</td>
+						<td>{{service.service_date}}</td>
 						<td>{{service.user}}</td>
 						<td><a class="btn btn-sm btn-info" href="{% url 'update_service' service.id %}">Güncelle</a></td>
 						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_service' service.id %}">Sil</a></td>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime,date
 
 # Create your models here.
 
@@ -78,8 +79,8 @@ class User(models.Model):
 class Service(models.Model):
 	service_name = models.CharField(max_length=1000, null=True)
 	solution_name = models.CharField(max_length=1000, null=True)
-	alternative_solution = models.CharField(max_length=1000, null=True)
-	date_created = models.DateTimeField(auto_now_add=True, null=True)
+	#date_created = models.DateTimeField(auto_now_add=True, null=True)
+	service_date = models.DateTimeField(null=True)
 	user = models.ForeignKey(User, null=True, on_delete= models.SET_NULL)
 
 	def __str__(self):
