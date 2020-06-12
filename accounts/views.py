@@ -18,7 +18,7 @@ from django.template.loader import render_to_string
 # Create your views here.
 from .models import *
 from .forms import OrderForm, CustomerForm, ServiceForm
-from .filters import OrderFilter, CustomerFilter
+from .filters import OrderFilter, CustomerFilter, ServiceFilter
 
 def loginPage(request):
 	if request.user.is_authenticated:
@@ -195,9 +195,13 @@ def services(request):
 	services_nurettin = services.filter(user=3).count()
 	services_sait = services.filter(user=4).count()
 
+	myFilter = ServiceFilter(request.GET, queryset=services)
+	services = myFilter.qs
+
 	context = {'services':services,'total_services':total_services,
 	'services_halil':services_halil, 'services_burak':services_burak,
-	'services_nurettin':services_nurettin, 'services_sait':services_sait }
+	'services_nurettin':services_nurettin, 'services_sait':services_sait,
+	'myFilter':myFilter }
 
 	return render(request, 'accounts/services.html', context)
 

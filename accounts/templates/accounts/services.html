@@ -10,23 +10,44 @@
 		<div class="card card-body">
 			<h5>SERVİS BİLGİLERİ</h5>
 		</div>
+		<br>
+		<div class="row">
+			<div class="col">
+				<div class="card card-body">
+
+					<form method="get">
+						{{myFilter.form}}
+
+				    <button class="btn btn-primary" type="submit">Filtrele</button>
+				  </form>
+
+				</div>
+			</div>
+			
+		</div>
+		<br>
 		<hr>
 		<a class="btn btn-primary  btn-sm btn-block" href="{% url 'create_service' %}">YENİ SERVİS EKLE</a>
 		<hr>
 		<div class="card card-body">
 			
-			<table class="table table-sm">
-				<tr>
-					<th>Servis Adı</th>
-					<th>Uygulanan Çözüm</th>
-					<th>Servis Tarihi</th>
-					<th>Oluşturan</th>
-					<th>Güncelle</th>
-					<th>Sil</th>
-				</tr>
-
-				{% for service in services %}
+			<table data-order='[[ 2, "desc" ]]' id="table_id" class="table table-sm">
+				<thead>
 					<tr>
+						
+						<th>Servis Adı</th>
+						<th>Uygulanan Çözüm</th>
+						<th>Servis Tarihi</th>
+						<th>Oluşturan</th>
+						<th>Güncelle</th>
+						<th>Sil</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<tr>
+						{% for service in services %}
+						
 						<td>{{service.service_name}}</td>
 						<td>{{service.solution_name}}</td>
 						<td>{{service.service_date}}</td>
@@ -34,13 +55,35 @@
 						<td><a class="btn btn-sm btn-info" href="{% url 'update_service' service.id %}">Güncelle</a></td>
 						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_service' service.id %}">Sil</a></td>
 					</tr>
-				{% endfor %}
+					{% endfor %}
+				</tbody>
+				
 
 			</table>
 		</div>
 	</div>
 
+{% endblock %}
+ {% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/b-print-1.6.2/cr-1.5.2/fc-3.3.1/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sl-1.3.1/datatables.min.css"/>
+ 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/b-print-1.6.2/cr-1.5.2/fc-3.3.1/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sl-1.3.1/datatables.min.js"></script>
+<script>
+    $(document).ready( function () {
+    $('#table_id').DataTable({
 
+    dom: 'B<"clear">lfrtip',
+
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+
+        }}
+    );
+} );
+</script>
 </div>
-
 {% endblock %}
