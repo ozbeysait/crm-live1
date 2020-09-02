@@ -26,8 +26,8 @@ SECRET_KEY = 'cb*r_y65t@u!sb5)hx6t6e(m3bl9m-h4n@q)xrkx15hods2l$x'
 #DEBUG = True
 DEBUG = False
 
-ALLOWED_HOSTS = ['pgs-crm.herokuapp.com','127.0.0.1']
-#ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['pgs-crm.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'django_filters',
+    'bootstrap_datepicker_plus',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    'channels',
+    'channels_redis',
 ]
 
 MIDDLEWARE = [
@@ -112,7 +116,7 @@ LANGUAGE_CODE = 'tr'
 
 TIME_ZONE = 'Europe/Istanbul'
 
-DATETIME_FORMAT="Y/m/d"
+DATETIME_FORMAT= 'd/m/Y H:i'
 
 USE_I18N = True
 
@@ -120,19 +124,45 @@ USE_L10N = False
 
 USE_TZ = True
 
+CRISPY_TEMPLATE_PACK = 'bootstap4'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
+ASGI_APPLICATION = 'crm.routing.application'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
+CHANNEL_LAYERS = {
+    'default':{
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+        'hosts': [('127.0.0.1',6379),],
+        }
+    }
+}
 
-MEDIA_URL = '/images/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django_plotly_dash.finders.DashAssetFinder',
+    'django_plotly_dash.finders.DashComponentFinder'
 ]
 
+PLOTLY_COMPONENTS = [
+    'dash_core_components',
+    'dash_html_components',
+    'dash_renderer',
+
+    'dpd_components'
+]
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+STATICFILES_LOCATION = 'static'
+STATIC_ROOT = 'static'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'crm/static')
+]
+
+MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
@@ -145,6 +175,9 @@ if not DEBUG:
     EMAIL_HOST_USER = 'ozbey.160707075@gmail.com'
     EMAIL_HOST_PASSWORD = '1995029s'
 else:
-    EMAIL_BACKEND = (
-        "django.core.mail.backends.console.EmailBackend"
-    )
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'ozbey.160707075@gmail.com'
+    EMAIL_HOST_PASSWORD = '1995029s'

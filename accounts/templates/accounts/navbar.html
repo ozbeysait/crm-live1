@@ -10,29 +10,49 @@
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <img src="{% static 'images/logo.png' %}">
+  <a href="/"><img src="{% static 'images/logo.png' %}"></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home' %}">Kontrol Paneli</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'products' %}">Ürünler</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'customers' %}">Müşteriler</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'services' %}">Servis Bilgileri</a>
-      </li>
+
+      {% if request.user.is_staff %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Kontrol Paneli</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'customers' %}">Müşteriler</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'todo' %}">Yapılacaklar</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'all-ticket' %}">Ticket</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'services' %}">Servis Bilgileri</a>
+        </li>
+      {% else %}
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'home' %}">Profilim</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'tickets' %}">Ticket</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'new-ticket' %}">Ticket Gönder</a>
+        </li>
+      {% endif %}
+
     </ul>
   </div>
-
-  <span class="hello-msg">Merhaba, {{request.user}}</span>
-  <span ><a  class="hello-msg" href="/admin">Admin Paneli</a></span>
-  <span ><a  class="hello-msg" href="{% url 'logout' %}">Çıkış</a></span>
-
+  {% if auth == 'personal' or auth == 'admin' %}
+    <span class="hello-msg">Merhaba, {{request.user.get_short_name}}</span>
+    <span ><a  class="hello-msg" href="/admin">Admin Paneli</a></span>
+    <span ><a  class="hello-msg" href="{% url 'logout' %}">Çıkış</a></span>
+  {% else %}
+    <span class="hello-msg">Merhaba, {{request.user.get_full_name}}</span>
+    <span ><a  class="hello-msg" href="{% url 'logout' %}">Çıkış</a></span>
+  {% endif %}
 </nav>

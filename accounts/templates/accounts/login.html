@@ -7,20 +7,20 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
-
+	{% load static %}
 	<style>
 		body,
 		html {
 			margin: 0;
 			padding: 0;
 			height: 100%;
-			background: #7abecc !important;
+			background: url({% static 'images/bg.jpg' %}) 50% 0 no-repeat fixed;
 		}
 		.user_card {
 			width: 350px;
 			margin-top: auto;
 			margin-bottom: auto;
-			background: #74cfbf;
+			background: #716E7F;
 			position: relative;
 			display: flex;
 			justify-content: center;
@@ -44,7 +44,7 @@
 
 		.login_btn {
 			width: 100%;
-			background: #33ccff !important;
+			background: #463851 !important;
 			color: white !important;
 		}
 		.login_btn:focus {

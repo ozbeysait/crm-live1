@@ -1,0 +1,91 @@
+{%  extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+<div style="width: 39%; display: inline-block;">
+	<div class="row">
+		<div class="col-md">
+			<div class="card card-body">
+				<p>TİCKET: <strong class="text-uppercase">{{ticket.customer}}</strong></p>
+				<p>TİCKET ID: <strong class="text-uppercase">{{ticket.id}}</strong></p>
+	            <p>VERGİ NUMARASI: <strong class="text-uppercase">{{customer.taxNumber}}</strong></p>
+
+	            <hr>
+	            <h6>İsim Soyisim:</h6>
+				<p>{{ticket.name}}</p>
+				<h6>Email: </h6>
+				<p>{{ticket.email}}</p>
+				<h6>Konu: </h6>
+				<p>{{ticket.subject}}</p>
+				
+				{% if auth == 'personal' or auth == 'admin' %}
+				    <h6>IP: </h6>
+				<p>{{ticket.ip}}</p>
+				  {% else %}
+				  {% endif %}
+				
+
+					{% if auth == 'personal' or auth == 'admin' %}
+					<hr>
+				    <a class="btn btn-primary  btn-sm btn-block" href="{% url 'ticket-to-service' ticket.id  %}">SERVİS EKLE</a>
+				    <hr>
+				    <a class="btn btn-primary  btn-sm btn-danger" href="{% url 'ticket-close' ticket.id %}">TİCKET KAPAT</a>
+				  {% else %}
+				  {% endif %}
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div style="width: 60%; display: inline-block;">
+	<div class="row">
+		<div class="col-md">
+			<div class="card card-body">
+					<p style="text-align: left;"><strong class="text-uppercase">{{ticket.userName.get_full_name}}</strong> • {{ticket.createAt}}</p>
+					<p style="text-align: left;">{{ticket.message}}</p>
+					<hr>
+					{% for comment in comments %}
+						{% if comment.user.groups.all.0.name == "customer" %}
+					    	<p style="text-align: left;"><strong class="text-uppercase">{{comment.user.get_full_name}}</strong> • {{comment.createAt}}</p>
+							<p style="text-align: left;">{{comment.comment}}</p>
+							<hr>
+
+					   {% else %}
+						   <p style="text-align: right;"><strong class="text-uppercase">{{comment.user.get_full_name}}</strong> • {{comment.createAt}}</p>
+							<p style="text-align: right;">{{comment.comment}}</p>
+							<hr>
+
+					   {% endif %}
+						
+					{% endfor %}
+
+					{% if ticket.status == 'Kapalı' %}
+					    	<p style="text-align: center;"><strong class="text-uppercase">Ticket Kapatılmıştır.</strong></p>
+							
+
+					   {% else %}
+						  <div style="text-align: center;">
+							<form action="" method="POST">
+							{% csrf_token %}
+								{{form.as_p}}
+							<input type="submit" name="Submit">
+							</form>
+						
+					</div>
+
+					{% endif %}
+					
+					
+
+				
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+{% endblock %}

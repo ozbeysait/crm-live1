@@ -21,7 +21,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls,name="admin"),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    path('django_plotly_dash/',include('django_plotly_dash.urls')),
 
 ]
 

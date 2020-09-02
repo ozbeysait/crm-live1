@@ -1,0 +1,40 @@
+{%  extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+
+			<form action="" method="POST">
+				{% csrf_token %}
+				<h3>TİCKET GÜNCELLE</h3>
+				<hr>
+				<strong class="text-uppercase">İsim Soyisim</strong>
+				<p>{{ticket.name}}</p>
+				<hr>
+				<strong class="text-uppercase">EMAİL</strong>
+				<p>{{ticket.email}}</p>
+				<hr>
+				<strong class="text-uppercase">KONU</strong>
+				<p>{{ticket.subject}}</p>
+				<hr>
+				<strong class="text-uppercase">MESAJ</strong>
+				<p>{{ticket.message}}</p>
+				<hr>
+				<strong class="text-uppercase">NOT</strong>
+				<p>{{ticket.note}}</p>
+				<hr>
+				<strong class="text-uppercase">PUANLA</strong>
+				<p>{{form.rate}}</p>
+				
+				<input type="submit" name="Submit">
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

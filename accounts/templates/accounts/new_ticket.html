@@ -1,0 +1,35 @@
+{%  extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+
+			<form action="{% url 'new-ticket' %}" method="POST">
+				{% csrf_token %}
+				<h3>Yeni Ticket Oluştur </h3>
+				<hr>
+				<h6>İsim Soyisim:</h6>
+				<p>{{form.name}}</p>
+				<hr>
+				<h6>Email: </h6>
+				<p>{{form.email}}</p>
+				<hr>
+				<h6>Konu: </h6>
+				<p>{{form.subject}}</p>
+				<hr>
+				<h6>Mesaj: </h6>
+				<p>{{form.message}}</p>
+				<hr>		
+
+				<input type="submit" name="Submit">
+			</form>
+
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

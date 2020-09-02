@@ -9,11 +9,15 @@
 		<div class="card card-body">
 			<h5>Müşteri:</h5>
 			<h4>{{customer.name}}</h4>
-			<h5>{{customer.bakim_anlasmasi}}</h5>
+			<h6>Bakım anlaşması: <strong>{{customer.maintenance}}</strong></h6>
 			<hr>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_customer' customer.id %}">Müşteriyi Güncelle</a>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_order' customer.id %}">Sipariş Ver</a>
-			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'customer_send_message' customer.id %}">Uyarı Mail Gönder</a>
+			{% if auth == 'personal' %}
+				<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'customer_send_message' customer.id %}">Uyarı Mail Gönder</a>
+			{% else %}
+				<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_customer' customer.id %}">Müşteriyi Güncelle</a>
+				<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'customer_send_message' customer.id %}">Uyarı Mail Gönder</a>
+			{% endif %}
+			
 
 		</div>
 	</div>
@@ -29,9 +33,17 @@
 
 	<div class="col-md">
 		<div class="card card-body">
-			<h5>Toplam Siparişler</h5>
+			<h5>Toplam Servisler</h5>
 			<hr>
-			<h1 style="text-align: center;padding: 10px">{{order_count}}</h1>
+			<h1 style="text-align: center;padding: 10px">{{serviceCount}}</h1>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Toplam Ticket</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">{{ticketsCount}}</h1>
 		</div>
 	</div>
 </div>
@@ -57,32 +69,65 @@
 <div class="row">
 	<div class="col-md">
 		<div class="card card-body">
-			<table class="table table-sm">
-				<tr>
-					<th>Ürün</th>
-					<th>Not</th>
-					<th>Sipariş Tarihi</th>
-					<th>Durumu</th>
-					<th>Güncelle</th>
-					<th>Kaldır</th>
-				</tr>
+			<table data-order='[[ 2, "desc" ]]' id="table_id" class="table table-sm">
+				<thead>
+					<tr>
+						<th>Servis Adı</th>
+						<th>Uygulanan Çözüm</th>
+						<th>Servis Tarihi</th>
+						<th>Oluşturan</th>
+						<th>Güncelle</th>
+						<th>Kaldır</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for service in services %}
 
-				{% for order in orders %}
+					<tr>
+						<td>{{service.serviceName}}</td>
+						<td>{{service.solutionName}}</td>
+						<td>{{service.serviceDate}}</td>
+						<td>{{service.user}}</td>
+						<td><a class="btn btn-sm btn-info" href="{% url 'update_service' service.id %}">Güncelle</a></td>
 
-				<tr>
-					<td>{{order.product}}</td>
-					<td>{{order.note}}</td>
-					<td>{{order.date_created}}</td>
-					<td>{{order.status}}</td>
-					<td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Güncelle</a></td>
-
-					<td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Kaldır</a></td>
-				</tr>
-				{% endfor %}
-
+						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_service' service.id %}">Kaldır</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
 			</table>
 		</div>
 	</div>
 </div>
 
+{% endblock %}
+
+{% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/b-print-1.6.2/cr-1.5.2/fc-3.3.1/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sl-1.3.1/datatables.min.css"/>
+ 
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-html5-1.6.2/b-print-1.6.2/cr-1.5.2/fc-3.3.1/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sl-1.3.1/datatables.min.js"></script>
+
+<script>
+    $(document).ready( function () {
+    $('#table_id').DataTable({
+
+    dom: 'B<"clear">lfrtip',
+
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+
+        }}
+    );
+
+} );
+</script>
+
+</div>
 {% endblock %}
