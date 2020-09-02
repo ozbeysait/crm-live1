@@ -26,8 +26,8 @@ SECRET_KEY = 'cb*r_y65t@u!sb5)hx6t6e(m3bl9m-h4n@q)xrkx15hods2l$x'
 #DEBUG = True
 DEBUG = False
 
-#ALLOWED_HOSTS = ['pgs-crm.herokuapp.com','127.0.0.1']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['pgs-crm.herokuapp.com','127.0.0.1']
+#ALLOWED_HOSTS = []
 
 
 # Application definition
