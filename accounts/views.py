@@ -46,6 +46,7 @@ def logoutUser(request):
 @login_required(login_url='login')
 @AdminOnly
 def home(request):
+    """
 	users = []
 	services_count = []
 	for i in User.objects.filter(groups__name='personal'):
@@ -115,10 +116,10 @@ def home(request):
 		fig = go.Figure(data=[trace], layout=layout)
 		plot_div = plot(fig, output_type='div', include_plotlyjs=False)
 		return plot_div
-
+    """
 	auth = request.user.groups.all()[0].name
 
-	context = {'customers':customers,'auth':auth,'plot1': bar(),'plot2': bar2()}
+	context = {'customers':customers,'auth':auth}
 
 	return render(request, 'accounts/dashboard.html', context)
 

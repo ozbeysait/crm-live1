@@ -42,9 +42,6 @@ INSTALLED_APPS = [
     'accounts',
     'django_filters',
     'bootstrap_datepicker_plus',
-    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
-    'channels',
-    'channels_redis',
 ]
 
 MIDDLEWARE = [
@@ -124,34 +121,7 @@ USE_L10N = False
 
 USE_TZ = True
 
-CRISPY_TEMPLATE_PACK = 'bootstap4'
 
-ASGI_APPLICATION = 'crm.routing.application'
-
-CHANNEL_LAYERS = {
-    'default':{
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-        'hosts': [('127.0.0.1',6379),],
-        }
-    }
-}
-
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django_plotly_dash.finders.DashAssetFinder',
-    'django_plotly_dash.finders.DashComponentFinder'
-]
-
-PLOTLY_COMPONENTS = [
-    'dash_core_components',
-    'dash_html_components',
-    'dash_renderer',
-
-    'dpd_components'
-]
-X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATICFILES_LOCATION = 'static'
